@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2010 The myBatis Team
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+  <bean id="controllerClassNameHandlerMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+    <property name="detectHandlersInAncestorContexts" value="true"/>
+    <property name="caseSensitive" value="true"/>
+  </bean>
+
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="defaultEncoding" value="utf-8"></property>
+    <property name="maxUploadSize" value="${maxUploadSize}"></property>
+    <property name="maxInMemorySize" value="${maxInMemorySize}"></property>
+  </bean>
+
+  <!-- 配置velocity引擎 -->
+  <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+    <!-- 模板存放的路径 -->
+    <property name="resourceLoaderPath" value="/WEB-INF/templates/"/>
+    <property name="configLocation" value="classpath:velocity.properties"/>
+  </bean>
+
+  <!-- 配置视图的显示 -->
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+    <!-- 视图文件的前缀，即存放的路径 -->
+    <property name="prefix" value="/"/>
+    <!-- 视图文件的后缀名 -->
+    <property name="suffix" value=".vm"/>
+    <!--toolbox配置文件路径-->
+    <!--<property name="toolboxConfigLocation" value="/WEB-INF/tools.xml"/>-->
+    <!--日期函数名称-->
+    <property name="dateToolAttribute" value="date"/>
+    <!--数字函数名称-->
+    <property name="numberToolAttribute" value="number"/>
+    <property name="contentType" value="text/html;charset=UTF-8"/>
+    <property name="viewClass" value="com.newstar.hbms.mvc.VelocityView"/>
+  </bean>
+
+
+  <bean id="workPanelController" class="com.newstar.hbms.system.web.controller.WorkPanelController">
+    <property name="authorityService" ref="authorityService"/>
+  </bean>
+
+</beans>
